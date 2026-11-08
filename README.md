@@ -2,7 +2,6 @@
 
 **My classifier comparison from SMU research on spotting low socioeconomic status (SES) narratives in Reddit text: nine models, from Naive Bayes to an LSTM and a CNN, on the same human-labeled set. This work fed into a CoNLL 2025 paper where I am second author.**
 
-[![Paper: CoNLL 2025](https://img.shields.io/badge/paper-CoNLL%202025-blue.svg)](https://aclanthology.org/2025.conll-1.23/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **Links:** [Paper on the ACL Anthology](https://aclanthology.org/2025.conll-1.23/) · [Results](#results) · [Notebooks](#project-structure) · [Arham Doshi](https://arhamdoshi.dev) · [LinkedIn](https://linkedin.com/in/arhamdoshi)
