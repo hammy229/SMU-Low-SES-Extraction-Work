@@ -30,6 +30,29 @@ On this small set, simple bag-of-words models beat the neural ones, which had to
 
 Students from low-income backgrounds often describe their situation indirectly, and those signals get missed. Finding them in text at scale could help direct support to the people who need it, but only if the classifier is trustworthy. Comparing many models side by side on the same labels shows which approaches hold up on small, carefully labeled data, which is what most real annotation projects have.
 
+## How I built it
+
+I joined a research project at SMU in July 2024. The question: students from low-income backgrounds often describe their situation indirectly, so can a classifier spot those narratives in Reddit text? The three notebooks in this repo are my part, in the order I wrote them.
+
+**Start with the obvious thing.** My first try was a keyword list: "poor", "pell grant", "food pantry", "working multiple jobs", "couldn't afford to", and so on. Any match meant low SES. It's easy to read, but one word anywhere decides the label, and people describe money trouble in far more ways than a list can hold. I needed something that learns from labeled examples.
+
+**Then the simplest learned model.** I balanced the labeled set to 64 low SES texts and 64 others, held out 20% (26 texts), and turned each text into word counts with a bag of words. In [the first notebook](Arham_Low_ses_simple_classifier.ipynb), a random forest got 65% and a linear SVM got 81%. In [the second](Doshi_Low_SES_LR_LSTM_CNN_SVM_Naive_Bayes.ipynb), logistic regression also got 81%, and I tried calling a text low SES only when the model was more than 90% sure.
+
+**Then everything at once.** In [the last notebook](Doshi_Low_SES_LR_LSTM_CNN_SVM_Naive_Bayes_KNN_Decision_Tree.ipynb) I put nine models on the exact same split, so the comparison would be fair:
+
+- Naive Bayes, logistic regression, and SVM tied at 81% accuracy. Naive Bayes had the best F1, 0.83.
+- Random forest and gradient boosting fell to 65%, and a single decision tree to 62%.
+- The neural models did worst: a 1D CNN got 58% and an LSTM 38%. With 128 examples, they had nothing to learn from.
+
+**The paper found the same thing at scale.** The full project, on a much larger corpus, reached the same conclusion: classical models with good features beat fine-tuned BERT and few-shot LLMs on this task. It became a CoNLL 2025 paper, where I'm second author.
+
+### What I learned
+
+- **Start simple:** a bag of words and a linear model got 81% before I tried anything with a neural network.
+- **Small data favors simple models:** the LSTM needed far more than 128 examples, and the ranking flipped toward the classical models.
+- **Compare on one split:** every model saw the same 26 test texts, or the table would mean nothing.
+- **Know how big one mistake is:** with 26 test texts, one text moves accuracy by about 4 points, so close models are really a tie.
+
 ## How it works
 
 1. **Data.** Low SES and not-low-SES narratives drawn from Reddit and labeled by people, balanced to 64 of each.
